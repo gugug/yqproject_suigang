@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>网络图</title>
+    {% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'styles/network.css' %}">
+</head>
+<body>
+	<div id="header">
+			<img onclick="change()" src="{% static 'images/hamburger.png' %}" alt="" id="hamburger-icon">
+			<img src="{% static 'images/more.png' %}" alt="" id="more-icon">
+	</div>
+	<div id="network"></div>
+	<script type="text/javascript" src="{% static 'scripts/jquery-1.10.1.js' %}"></script>
+	<script type="text/javascript" src="{% static 'scripts/vis.js' %}"></script>
+	<script type="text/javascript" src="{% static 'scripts/new.js' %}"></script>
+    <script>
+        var color = 'gray';
+	    var len = undefined;
+	    var container = document.getElementById('network');
+	    var data = {
+{#            nodes:nodes,#}
+{#            edges:edges,#}
+	        nodes: {{ node_data |safe }},
+	        edges: {{ edge_data |safe }}
+	    };
+	   	var options = {
+	            nodes: {
+	                shape: 'dot',
+	                size: 16
+	        	},
+	        	physics: {
+	            	forceAtlas2Based: {
+		                gravitationalConstant: -30,
+		                centralGravity: 0.02,
+		                springLength: 190,
+		                springConstant: 0.18
+	            	},
+		            maxVelocity: 100,
+		            solver: 'forceAtlas2Based',
+		            timestep: 0.35,
+		            stabilization: {iterations: 150}
+	        	}
+	    };
+	    network = new vis.Network(container, data, options); 
+	</script>
+</body>
+</html>
